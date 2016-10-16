@@ -55,8 +55,9 @@ RUN apk add --no-cache nodejs  &&\
     nodemon            \
     webpack
 
-RUN echo '#!/bin/sh\n\nexec "$@"' > /usr/local/bin/docker-entrypoint.sh &&\
-  chmod 0755 /usr/local/bin/docker-entrypoint.sh
+RUN echo $'#!/bin/sh\n\nexec "$@"' > /usr/local/bin/docker-entrypoint.sh &&\
+  chmod 0755 /usr/local/bin/docker-entrypoint.sh &&\
+  ln -s /usr/local/bin/docker-entrypoint.sh /
 
 EXPOSE 80 443 2812 3000 8000
 
