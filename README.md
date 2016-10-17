@@ -33,23 +33,23 @@ RUN apk del .build-deps
 
 
 ## Optional run-time tools
-``` sh
-ca-certificates
-curl
-htop
-mc
-nano
-ncdu
-tmux
-vim
-wget
-```
+- `ca-certificates`
+- `curl`
+- `htop`
+- `mc`
+- `nano`
+- `ncdu`
+- `tmux`
+- `vim`
+- `wget`
 
 ## Optional buil-time tools for based image
 
 1. Install OS build-deps
 2. Install Project dependencies
 3. Remove build-deps in the same layer so the image size it is doesn't affected
+
+Alpine
 
 ``` sh
 RUN apk add --no-cache --virtual .build-deps \
@@ -74,4 +74,18 @@ RUN apk add --no-cache --virtual .build-deps \
   ...
     &&\
   apk del .build-deps
+```
+
+Ubuntu (TODO redo)
+
+``` sh
+RUN set -ex &&\
+  apt-get update &&\
+  apt-get -qq -o=Dpkg::Use-Pty=0 install --no-install-recommends --no-install-suggests --assume-yes \
+    g++        \
+    gcc        \
+    libc-dev   \
+    make       \
+    python-dev
+
 ```

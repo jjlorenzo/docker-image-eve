@@ -1,5 +1,10 @@
 #!/usr/bin/env sh
 
+# ./build.sh
+# ./build.sh watch
+# BASE=ubuntu VERSION=16.04 ./build.sh
+# BASE=ubuntu VERSION=16.04 ./build.sh watch
+
 version="${VERSION:-3.4}"
 base="${BASE:-alpine}"
 

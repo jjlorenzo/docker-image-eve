@@ -4,15 +4,13 @@ MAINTAINER Jose Jorge Lorenzo Vila <jjlorenzo@gmail.com>
 
 ENV LANG C.UTF-8
 
-RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community \
-  dumb-init
-
-RUN apk add --no-cache \
-  git    \
-  monit  \
-  nginx  \
-  py-pip \
-  uwsgi
+RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community dumb-init &&\
+  apk add --no-cache \
+    git    \
+    monit  \
+    nginx  \
+    py-pip \
+    uwsgi
 
 # https://github.com/npm/npm/issues/9863
 RUN apk add --no-cache nodejs  &&\
