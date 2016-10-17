@@ -22,12 +22,13 @@ RUN apt-get update && apt-get -qq -o=Dpkg::Use-Pty=0 install ca-certificates cur
     python-pip        \
     python-setuptools \
     uwsgi-core      &&\
-  rm -rf /var/lib/apt/lists/*
+  rm -rf /var/lib/apt/lists/* &&\
+  curl https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64 -L -o /usr/local/bin/gosu &&\
+  chmod 0755 /usr/local/bin/gosu
   
 # https://github.com/npm/npm/issues/9863
-RUN \
-  # curl https://deb.nodesource.com/node_4.x/pool/main/n/nodejs/nodejs_4.6.0-1nodesource1~xenial1_amd64.deb --output node.deb &&\
-  curl https://deb.nodesource.com/node_6.x/pool/main/n/nodejs/nodejs_6.8.1-1nodesource1~xenial1_amd64.deb --output node.deb &&\
+# curl https://deb.nodesource.com/node_4.x/pool/main/n/nodejs/nodejs_4.6.0-1nodesource1~xenial1_amd64.deb --output node.deb &&\
+RUN curl https://deb.nodesource.com/node_6.x/pool/main/n/nodejs/nodejs_6.8.1-1nodesource1~xenial1_amd64.deb --output node.deb &&\
   dpkg -i node.deb &&\
   rm node.deb &&\
   npm update --silent --global npm &&\
@@ -40,6 +41,10 @@ RUN \
 RUN echo '#!/bin/sh\n\nexec "$@"' > /usr/local/bin/docker-entrypoint.sh &&\
   chmod 0755 /usr/local/bin/docker-entrypoint.sh &&\
   ln -s /usr/local/bin/docker-entrypoint.sh /
+
+RUN addgroup --system app && adduser --disabled-login --ingroup app --system app
+
+WORKDIR /home/app
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]
 
