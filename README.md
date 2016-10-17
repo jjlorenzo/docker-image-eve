@@ -30,3 +30,48 @@ RUN apk del .build-deps
 - `monit`: small utility for managing and monitoring Unix systems
   [ref](https://blog.deimos.fr/2016/01/13/docker-why-you-should-use-monit-instead-of-supervisord/)
   [ref](http://blog.xebia.com/bootstrapping-and-monitoring-multiple-processes-in-docker-using-monit/)
+
+
+## Optional run-time tools
+``` sh
+ca-certificates
+curl
+htop
+mc
+nano
+ncdu
+tmux
+vim
+wget
+```
+
+## Optional buil-time tools for based image
+
+1. Install OS build-deps
+2. Install Project dependencies
+3. Remove build-deps in the same layer so the image size it is doesn't affected
+
+``` sh
+RUN apk add --no-cache --virtual .build-deps \
+  autoconf       \
+  automake       \
+  build-base     \
+  file           \
+  freetype-dev   \
+  jpeg-dev       \
+  lcms2-dev      \
+  libpng-dev     \
+  libwebp-dev    \
+  nasm           \
+  openjpeg-dev   \
+  postgresql-dev \
+  python-dev     \
+  tiff-dev       \
+  zlib-dev       \
+    &&\
+  ...
+  install project deps
+  ...
+    &&\
+  apk del .build-deps
+```
