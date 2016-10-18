@@ -5,14 +5,14 @@ MAINTAINER Jose Jorge Lorenzo Vila <jjlorenzo@gmail.com>
 ENV LANG C.UTF-8
 
 RUN set -ex &&\
-  apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community dumb-init &&\
+  apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community dumb-init multitail &&\
   apk add --no-cache \
-    curl    \
-    git     \
-    monit   \
-    nginx   \
-    py-pip  \
-    uwsgi &&\
+    curl           \
+    git            \
+    monit          \
+    nginx          \
+    py-pip         \
+    uwsgi-python &&\
   curl https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64 -L -o /usr/local/bin/gosu &&\
   chmod 0755 /usr/local/bin/gosu
 
@@ -35,8 +35,6 @@ RUN set -ex &&\
   ln -s /usr/local/bin/docker-entrypoint.sh /
 
 ENV PS1 "\u@\h:\w# "
-
-WORKDIR /home/app
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]
 
